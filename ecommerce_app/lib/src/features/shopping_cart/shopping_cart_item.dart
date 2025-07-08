@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
 import 'package:ecommerce_app/src/constants/test_products.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,7 @@ class ShoppingCartItemContents extends StatelessWidget {
   final int itemIndex;
   final bool isEditable;
 
+  // * Keys for testing using find.byKey()
   static Key deleteKey(int index) => Key('delete-$index');
 
   @override
@@ -79,9 +81,10 @@ class ShoppingCartItemContents extends StatelessWidget {
       endContent: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(product.title, style: Theme.of(context).textTheme.headline5),
+          Text(product.title, style: Theme.of(context).textTheme.headlineSmall),
           gapH24,
-          Text(priceFormatted, style: Theme.of(context).textTheme.headline5),
+          Text(priceFormatted,
+              style: Theme.of(context).textTheme.headlineSmall),
           gapH24,
           isEditable
               // show the quantity selector and a delete button
@@ -94,9 +97,7 @@ class ShoppingCartItemContents extends StatelessWidget {
                       itemIndex: itemIndex,
                       // TODO: Implement onChanged
                       onChanged: (value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Not implemented')),
-                        );
+                        showNotImplementedAlertDialog(context: context);
                       },
                     ),
                     IconButton(
@@ -104,9 +105,7 @@ class ShoppingCartItemContents extends StatelessWidget {
                       icon: Icon(Icons.delete, color: Colors.red[700]),
                       // TODO: Implement onPressed
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Not implemented')),
-                        );
+                        showNotImplementedAlertDialog(context: context);
                       },
                     ),
                     const Spacer(),

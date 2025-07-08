@@ -6,6 +6,7 @@ import 'package:ecommerce_app/src/constants/app_sizes.dart';
 class ShoppingCartIcon extends StatelessWidget {
   const ShoppingCartIcon({Key? key}) : super(key: key);
 
+  // * Keys for testing using find.byKey()
   static const shoppingCartIconKey = Key('shopping-cart');
 
   @override
@@ -56,9 +57,13 @@ class ShoppingCartIconBadge extends StatelessWidget {
         child: Text(
           '$itemsCount',
           textAlign: TextAlign.center,
+          // * Force text scale factor to 1.0 irrespective of the device's
+          // * textScaleFactor. This is to prevent the text from growing bigger
+          // * than the available space.
+          textScaler: const TextScaler.linear(1.0),
           style: Theme.of(context)
               .textTheme
-              .caption!
+              .bodySmall!
               .copyWith(color: Colors.white),
         ),
       ),

@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/src/common_widgets/alert_dialogs.dart';
+import 'package:ecommerce_app/src/constants/breakpoints.dart';
 import 'package:ecommerce_app/src/localization/string_hardcoded.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/src/common_widgets/responsive_center.dart';
@@ -34,6 +36,7 @@ class LeaveReviewForm extends StatefulWidget {
   final String productId;
   final Review? review;
 
+  // * Keys for testing using find.byKey()
   static const reviewCommentKey = Key('reviewComment');
 
   @override
@@ -48,24 +51,30 @@ class _LeaveReviewFormState extends State<LeaveReviewForm> {
   @override
   void initState() {
     super.initState();
-    if (widget.review != null) {
-      _controller.text = widget.review!.comment;
-      _rating = widget.review!.score;
+    final review = widget.review;
+    if (review != null) {
+      _controller.text = review.comment;
+      _rating = review.score;
     }
   }
 
+  @override
+  void dispose() {
+    // * TextEditingControllers should be always disposed
+    _controller.dispose();
+    super.dispose();
+  }
+
   Future<void> _submitReview() async {
+    await showNotImplementedAlertDialog(context: context);
     // only submit if new rating or different from before
-    final previousReview = widget.review;
-    if (previousReview == null ||
-        _rating != previousReview.score ||
-        _controller.text != previousReview.comment) {
-      // TODO: Submit review
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Not implemented')),
-      );
-    }
-    Navigator.of(context).pop();
+    // final previousReview = widget.review;
+    // if (previousReview == null ||
+    //     _rating != previousReview.score ||
+    //     _controller.text != previousReview.comment) {
+    //   // TODO: Submit review
+    // }
+    // Navigator.of(context).pop();
   }
 
   @override
@@ -75,8 +84,7 @@ class _LeaveReviewFormState extends State<LeaveReviewForm> {
       children: [
         if (widget.review != null) ...[
           Text(
-            'You reviewed this product before. You can edit your review.'
-                .hardcoded,
+            'You reviewed this product before. Submit again to edit.'.hardcoded,
             textAlign: TextAlign.center,
           ),
           gapH24,

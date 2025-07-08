@@ -20,12 +20,14 @@ class EmptyPlaceholderWidget extends StatelessWidget {
           children: [
             Text(
               message,
-              style: Theme.of(context).textTheme.headline4,
+              style: Theme.of(context).textTheme.headlineMedium,
               textAlign: TextAlign.center,
             ),
             gapH32,
             PrimaryButton(
               onPressed: () =>
+                  // * Pop all routes in the navigation stack until the home
+                  // * screen is reached.
                   Navigator.of(context).popUntil((route) => route.isFirst),
               text: 'Go Home'.hardcoded,
             )

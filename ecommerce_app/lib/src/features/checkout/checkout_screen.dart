@@ -5,6 +5,7 @@ import 'package:ecommerce_app/src/features/checkout/payment/payment_page.dart';
 import 'package:ecommerce_app/src/features/sign_in/email_password_sign_in_screen.dart';
 
 /// The two sub-routes that are presented as part of the checkout flow.
+/// TODO: add the address page as well (see [AddressScreen]).
 enum CheckoutSubRoute { register, payment }
 
 /// This is the root widget of the checkout flow, which is composed of 2 pages:
@@ -19,13 +20,19 @@ class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
 
   @override
-  _CheckoutScreenState createState() => _CheckoutScreenState();
+  State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final _controller = PageController();
 
   var _subRoute = CheckoutSubRoute.register;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _onSignedIn() {
     setState(() => _subRoute = CheckoutSubRoute.payment);

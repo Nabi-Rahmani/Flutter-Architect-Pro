@@ -14,6 +14,13 @@ class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
   final _controller = TextEditingController();
 
   @override
+  void dispose() {
+    // * TextEditingControllers should be always disposed
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // See this article for more info about how to use [ValueListenableBuilder]
     // with TextField:
@@ -24,7 +31,7 @@ class _ProductsSearchTextFieldState extends State<ProductsSearchTextField> {
         return TextField(
           controller: _controller,
           autofocus: false,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
           decoration: InputDecoration(
             hintText: 'Search products'.hardcoded,
             icon: const Icon(Icons.search),

@@ -15,12 +15,13 @@ class CustomTextButton extends StatelessWidget {
     return SizedBox(
       height: Sizes.p48,
       child: TextButton(
+        onPressed: onPressed,
         child: Text(
           text,
           style: style,
           textAlign: TextAlign.center,
+          overflow: TextOverflow.visible,
         ),
-        onPressed: onPressed,
       ),
     );
   }

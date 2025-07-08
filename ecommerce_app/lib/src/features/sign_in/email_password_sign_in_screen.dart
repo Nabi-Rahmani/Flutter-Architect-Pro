@@ -16,6 +16,7 @@ class EmailPasswordSignInScreen extends StatelessWidget {
       : super(key: key);
   final EmailPasswordSignInFormType formType;
 
+  // * Keys for testing using find.byKey()
   static const emailKey = Key('email');
   static const passwordKey = Key('password');
 
@@ -70,6 +71,7 @@ class _EmailPasswordSignInContentsState
 
   @override
   void dispose() {
+    // * TextEditingControllers should be always disposed
     _node.dispose();
     _emailController.dispose();
     _passwordController.dispose();

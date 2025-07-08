@@ -10,10 +10,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
+      // * The home page of the app
       home: const ProductsListScreen(),
       onGenerateTitle: (BuildContext context) => 'My Shop'.hardcoded,
       theme: ThemeData(
-        visualDensity: const VisualDensity(),
+        // * Use this to toggle Material 3 (defaults to true since Flutter 3.16)
+        useMaterial3: true,
         primarySwatch: Colors.grey,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black87,
@@ -22,8 +24,8 @@ class MyApp extends StatelessWidget {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            primary: Colors.black, // background (button) color
-            onPrimary: Colors.white, // foreground (text) color
+            backgroundColor: Colors.black, // background (button) color
+            foregroundColor: Colors.white, // foreground (text) color
           ),
         ),
       ),
