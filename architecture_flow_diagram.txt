@@ -1,0 +1,224 @@
+ENTERPRISE ARCHITECTURE FLOW DIAGRAM
+=====================================
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              CLIENT LAYER                                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  Flutter Web    │  Flutter Mobile  │  Flutter Desktop  │  Admin Dashboard     │
+│  (Customers)    │  (iOS/Android)   │  (Internal Tools) │  (Management)        │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            API GATEWAY LAYER                                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│  Kong/AWS API Gateway                                                          │
+│  ├── Authentication & Authorization (JWT, RBAC)                               │
+│  ├── Rate Limiting & Throttling                                               │
+│  ├── Request Routing & Load Balancing                                         │
+│  ├── CORS & Security Headers                                                  │
+│  ├── Request/Response Transformation                                          │
+│  └── Circuit Breaker Pattern                                                  │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                          MICROSERVICES LAYER                                   │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
+│  │   PRODUCT   │  │    CART     │  │    ORDER    │  │    USER     │          │
+│  │   SERVICE   │  │   SERVICE   │  │   SERVICE   │  │   SERVICE   │          │
+│  │             │  │             │  │             │  │             │          │
+│  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │          │
+│  │ │   API   │ │  │ │   API   │ │  │ │   API   │ │  │ │   API   │ │          │
+│  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │          │
+│  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │          │
+│  │ │Application│ │  │ │Application│ │  │ │Application│ │  │ │Application│ │          │
+│  │ │  Layer   │ │  │ │  Layer   │ │  │ │  Layer   │ │  │ │  Layer   │ │          │
+│  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │          │
+│  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │          │
+│  │ │ Domain  │ │  │ │ Domain  │ │  │ │ Domain  │ │  │ │ Domain  │ │          │
+│  │ │  Layer  │ │  │ │  Layer  │ │  │ │  Layer  │ │  │ │  Layer  │ │          │
+│  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │          │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘          │
+│                                                                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                            │
+│  │   PAYMENT   │  │NOTIFICATION │  │   REVIEW    │                            │
+│  │   SERVICE   │  │   SERVICE   │  │   SERVICE   │                            │
+│  │             │  │             │  │             │                            │
+│  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │                            │
+│  │ │   API   │ │  │ │   API   │ │  │ │   API   │ │                            │
+│  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │                            │
+│  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │                            │
+│  │ │Application│ │  │ │Application│ │  │ │Application│ │                            │
+│  │ │  Layer   │ │  │ │  Layer   │ │  │ │  Layer   │ │                            │
+│  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │                            │
+│  │ ┌─────────┐ │  │ ┌─────────┐ │  │ ┌─────────┐ │                            │
+│  │ │ Domain  │ │  │ │ Domain  │ │  │ │ Domain  │ │                            │
+│  │ │  Layer  │ │  │ │  Layer  │ │  │ │  Layer  │ │                            │
+│  │ └─────────┘ │  │ └─────────┘ │  │ └─────────┘ │                            │
+│  └─────────────┘  └─────────────┘  └─────────────┘                            │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        EVENT-DRIVEN LAYER                                      │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐ │
+│  │                        EVENT BUS (Apache Kafka)                            │ │
+│  │                                                                             │ │
+│  │  Product Events  │  Cart Events  │  Order Events  │  User Events           │ │
+│  │  Payment Events  │  Notification │  Review Events │  Audit Events          │ │
+│  │                                                                             │ │
+│  └─────────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐ │
+│  │                        SAGA ORCHESTRATOR                                   │ │
+│  │  • Distributed Transaction Management                                      │ │
+│  │  • Compensation Patterns                                                   │ │
+│  │  • Event Sourcing                                                          │ │
+│  │  • Workflow Engine                                                         │ │
+│  └─────────────────────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            DATA LAYER                                          │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
+│  │   PRODUCT   │  │    CART     │  │    ORDER    │  │    USER     │          │
+│  │   DATA      │  │    DATA     │  │    DATA     │  │    DATA     │          │
+│  │             │  │             │  │             │  │             │          │
+│  │ PostgreSQL  │  │  MongoDB    │  │ PostgreSQL  │  │ PostgreSQL  │          │
+│  │ Elasticsearch│  │   Redis     │  │ Elasticsearch│  │    Redis    │          │
+│  │    Redis    │  │             │  │    Redis    │  │             │          │
+│  └─────────────┘  └─────────────┘  └─────────────┘  └─────────────┘          │
+│                                                                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                            │
+│  │   PAYMENT   │  │NOTIFICATION │  │   REVIEW    │                            │
+│  │    DATA     │  │    DATA     │  │    DATA     │                            │
+│  │             │  │             │  │             │                            │
+│  │ PostgreSQL  │  │  MongoDB    │  │ PostgreSQL  │                            │
+│  │    Redis    │  │    Redis    │  │ Elasticsearch│                            │
+│  │             │  │             │  │    Redis    │                            │
+│  └─────────────┘  └─────────────┘  └─────────────┘                            │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        INFRASTRUCTURE LAYER                                    │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐ │
+│  │                    MONITORING & OBSERVABILITY                               │ │
+│  │  Prometheus (Metrics) │ ELK Stack (Logs) │ Jaeger (Tracing) │ Grafana     │ │
+│  └─────────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐ │
+│  │                      SECURITY & COMPLIANCE                                 │ │
+│  │  Encryption │ Key Management │ Audit Logging │ GDPR/SOX │ RBAC/ABAC        │ │
+│  └─────────────────────────────────────────────────────────────────────────────┘ │
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────────┐ │
+│  │                      DEVOPS & DEPLOYMENT                                   │ │
+│  │  Kubernetes │ CI/CD Pipeline │ Terraform │ Blue-Green │ Auto-scaling       │ │
+│  └─────────────────────────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                      CONFIGURATION LAYER                                       │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐                            │
+│  │   FEATURE   │  │CONFIGURATION│  │   SECRETS   │                            │
+│  │    FLAGS    │  │   SERVICE    │  │ MANAGEMENT │                            │
+│  │             │  │             │  │             │                            │
+│  │ LaunchDarkly│  │   Consul    │  │ HashiCorp  │                            │
+│  │   Unleash   │  │    etcd     │  │    Vault   │                            │
+│  │             │  │             │  │             │                            │
+│  └─────────────┘  └─────────────┘  └─────────────┘                            │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+KEY ENTERPRISE PATTERNS APPLIED:
+================================
+
+1. DOMAIN-DRIVEN DESIGN (DDD)
+   • Bounded Contexts: Each microservice = bounded context
+   • Aggregates: Rich domain models with business rules
+   • Value Objects: Immutable domain concepts
+   • Domain Events: Cross-service communication
+
+2. CLEAN ARCHITECTURE (MAINTAINED)
+   • Dependency Inversion: All dependencies point inward
+   • Separation of Concerns: Clear layer boundaries
+   • Testability: Easy to unit test and mock
+   • Independence: Business logic independent of frameworks
+
+3. CQRS (Command Query Responsibility Segregation)
+   • Commands: Write operations that change state
+   • Queries: Read operations that don't change state
+   • Event Sourcing: Store events instead of current state
+   • Projections: Optimized read models
+
+4. EVENT-DRIVEN ARCHITECTURE
+   • Domain Events: Business events for cross-service communication
+   • Event Sourcing: Complete audit trail of changes
+   • Saga Pattern: Distributed transaction management
+   • Eventual Consistency: Acceptable for most business scenarios
+
+5. MICROSERVICES PATTERNS
+   • API Gateway: Single entry point for all clients
+   • Service Discovery: Dynamic service registration
+   • Circuit Breaker: Fault tolerance
+   • Bulkhead: Isolate failures
+
+MIGRATION STRATEGY FROM CURRENT ARCHITECTURE:
+============================================
+
+PHASE 1: FOUNDATION (3-6 months)
+• Extract Domain Events from current services
+• Implement Event Bus (start with in-memory, move to Kafka)
+• Add CQRS to existing services
+• Introduce Feature Flags
+
+PHASE 2: SERVICE DECOMPOSITION (6-12 months)
+• Extract Product Service from monolith
+• Extract Cart Service with event-driven sync
+• Extract Order Service with workflow engine
+• Add API Gateway
+
+PHASE 3: ENTERPRISE FEATURES (12+ months)
+• Multi-tenancy support
+• Advanced Security (RBAC, encryption)
+• Compliance frameworks
+• Global Distribution
+
+BENEFITS OF THIS ARCHITECTURE:
+==============================
+
+SCALABILITY:
+• Horizontal Scaling: Each service scales independently
+• Load Distribution: API Gateway distributes load
+• Caching: Multiple cache layers for performance
+
+MAINTAINABILITY:
+• Team Autonomy: Each team owns their service
+• Technology Diversity: Use best tool for each service
+• Independent Deployment: Deploy services independently
+
+RELIABILITY:
+• Fault Isolation: Failure in one service doesn't affect others
+• Circuit Breakers: Prevent cascade failures
+• Eventual Consistency: System remains available
+
+SECURITY:
+• Defense in Depth: Multiple security layers
+• Zero Trust: Every request is authenticated
+• Audit Trail: Complete visibility into system behavior
+
+This architecture maintains your Clean Architecture principles while adding 
+enterprise-grade scalability, reliability, and maintainability patterns.
